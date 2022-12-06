@@ -1,0 +1,54 @@
+import org.junit.Assert;
+import org.junit.Test;
+
+public class XYZ_BankTest {
+
+    @Test
+    public void SanityTest() {
+        String url = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login";
+        String expected = "XYZ Bank";
+
+        Selenium selenium = new Selenium();
+        selenium.driver.get(url);
+        System.out.println(selenium.driver.getTitle());
+        Assert.assertEquals(expected, selenium.driver.getTitle());
+        selenium.driver.quit();}
+
+    // כנס למערכת בתור מנהל תעשה הוספה ללקוח חדש, תחזור למסך של המנהל ותבדוק שהלקוח שהכנס אכן נמצא
+    @Test
+    public void AddCustomerP_test() throws InterruptedException {
+        //
+        Thread.sleep(3000);
+        String url = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login";
+        Thread.sleep(3000);
+        String managerLoginSelector = "body > div > div > div.ng-scope > div > div.borderM.box.padT20 > div:nth-child(3) > button";
+        String addCustomerSelector = "body > div > div > div.ng-scope > div > div.center > button:nth-child(1)";
+        String firstNameSelector = "body > div > div > div.ng-scope > div > div.ng-scope > div > div > form > div:nth-child(1) > input";
+        String lastNameSelector = "body > div > div > div.ng-scope > div > div.ng-scope > div > div > form > div:nth-child(2) > input";
+        String postCodeSelector = "body > div > div > div.ng-scope > div > div.ng-scope > div > div > form > div:nth-child(3) > input";
+        String submitSelector = "body > div > div > div.ng-scope > div > div.ng-scope > div > div > form > button";
+
+        String firstNameInput = "Lord";
+        String lastNameInput = "Voldemort";
+        String postCodeInput = "101010";
+
+        String customersSelector = "body > div > div > div.ng-scope > div > div.center > button:nth-child(3)";
+        String firstNameTableSelector = "body > div > div > div.ng-scope > div > div.ng-scope > div > div > table > tbody > tr:nth-child(6) > td:nth-child(1)";
+        String expected = "Lord";
+
+        Selenium selenium = new Selenium();
+
+        selenium.driver.get(url);
+        selenium.getElement(managerLoginSelector).click();
+        selenium.getElement(addCustomerSelector).click();
+        selenium.getElement(firstNameSelector).sendKeys(firstNameInput);
+        selenium.getElement(lastNameSelector).sendKeys(lastNameInput);
+        selenium.getElement(postCodeSelector).sendKeys(postCodeInput);
+        selenium.getElement(submitSelector).click();
+
+        selenium.getElement(customersSelector).click();
+        String actual = selenium.getElement(firstNameSelector).getText();
+        Assert.assertEquals(expected, actual);
+        selenium.driver.quit();
+    }
+}
